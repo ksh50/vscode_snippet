@@ -1,0 +1,105 @@
+{
+	// Place your snippets for csharp here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"Print to console": {
+		"prefix": "cw",
+		"body": "Console.WriteLine($\"$0\");",
+		"description": "WriteLine(Short)"
+	},
+	"Read File Content": {
+		"prefix": "readtextfile2str",
+		"body": [
+			"static string ReadFileContent(string textFilePath)",
+			"{",
+			"    try",
+			"    {",
+			"        return System.IO.File.ReadAllText(textFilePath);",
+			"    }",
+			"    catch (System.IO.IOException e)",
+			"    {",
+			"        System.Console.WriteLine(\"ファイルを読み込む際にエラーが発生しました。\");",
+			"        System.Console.WriteLine(e.Message);",
+			"        return string.Empty; // または throw;",
+			"    }",
+			"}"
+		],
+		"description": "Read the content of a file into a string."
+	},
+	"Read File Lines": {
+		"prefix": "readtextfile2lines",
+		"body": [
+			"static string[] ReadFileLines(string textFilePath)",
+			"{",
+			"    try",
+			"    {",
+			"        return System.IO.File.ReadAllLines(textFilePath);",
+			"    }",
+			"    catch (System.IO.IOException e)",
+			"    {",
+			"        System.Console.WriteLine(\"ファイルを読み込む際にエラーが発生しました。\");",
+			"        System.Console.WriteLine(e.Message);",
+			"        return new string[] {}; // 空の文字列配列を返す",
+			"    }",
+			"}"
+		],
+		"description": "Read the lines of a file into a string array."
+	},
+	"MessagePack Serialization Snippet": {
+		"prefix": "msgpack_serdes",
+		"body": [
+			"// Nuget Command : dotnet add package MessagePack",
+			"using MessagePack;",
+			"",
+			"var filePath = \"./test.msgpk\";",
+			"",
+			"List<MyData> originalList = new List<MyData>",
+			"{",
+			"    new MyData { Property1 = \"Apple\", Property2 = \"Red\", Property3 = \"Fruit\" },",
+			"    new MyData { Property1 = \"Banana\", Property2 = \"Yellow\", Property3 = \"Fruit\" },",
+			"    new MyData { Property1 = \"Carrot\", Property2 = \"Orange\", Property3 = \"Vegetable\" }",
+			"};",
+			"",
+			"SerializeListToFile(originalList,filePath);",
+			"var tmp = DeserializeListFromFile(filePath);",
+			"",
+			"Console.WriteLine($\"{tmp.Count}\");",
+			"",
+			"// Listデータをシリアライズしてファイルに保存するメソッド",
+			"static void SerializeListToFile(List<MyData> list, string filePath)",
+			"{",
+			"    byte[] bytes = MessagePackSerializer.Serialize(list);",
+			"    File.WriteAllBytes(filePath, bytes);",
+			"}",
+			"",
+			"// ファイルからListデータをデシリアライズして取得するメソッド",
+			"static List<MyData> DeserializeListFromFile(string filePath)",
+			"{",
+			"    byte[] bytes = File.ReadAllBytes(filePath);",
+			"    return MessagePackSerializer.Deserialize<List<MyData>>(bytes);",
+			"}",
+			"// MessagePack Schema Class Sample",
+			"[MessagePackObject]",
+			"public class MyData",
+			"{",
+			"    [Key(0)]",
+			"    public string? Property1 { get; set; }",
+			"    [Key(1)]",
+			"    public string? Property2 { get; set; }",
+			"    [Key(2)]",
+			"    public string? Property3 { get; set; }",
+			"}"
+		],
+		"description": "Serialize and deserialize a list of objects using MessagePack."
+	}
+}
